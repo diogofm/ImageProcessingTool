@@ -333,6 +333,308 @@ def median_filter(im_name, image):
     imageio.imwrite('post_processed_images/median_' + im_name, result)
 
 
+def max_filter(im_name, image):
+    width = image.shape[1]
+    height = image.shape[0]
+    result = np.zeros((image.shape[0], image.shape[1]), np.uint8)
+
+    for row in range(height):
+        for col in range(width):
+            currentElement = 0
+            left = 0
+            right = 0
+            top = 0
+            bottom = 0
+            topLeft = 0
+            topRight = 0
+            bottomLeft = 0
+            bottomRight = 0
+            counter = 1
+            currentElement = image[row][col]
+
+            if not col - 1 < 0:
+                left = image[row][col - 1]
+            if not col + 1 > width - 1:
+                right = image[row][col + 1]
+            if not row - 1 < 0:
+                top = image[row - 1][col]
+            if not row + 1 > height - 1:
+                bottom = image[row + 1][col]
+
+            if not row - 1 < 0 and not col - 1 < 0:
+                topLeft = image[row - 1][col - 1]
+            if not row - 1 < 0 and not col + 1 > width - 1:
+                topRight = image[row - 1][col + 1]
+            if not row + 1 > height - 1 and not col - 1 < 0:
+                bottomLeft = image[row + 1][col - 1]
+            if not row + 1 > height - 1 and not col + 1 > width - 1:
+                bottomRight = image[row + 1][col + 1]
+
+            neighbors = [int(currentElement), int(left), int(right), int(top), int(bottom), int(topLeft),
+                         int(topRight), int(bottomLeft), int(bottomRight)]
+            result[row][col] = max(neighbors)
+
+    image_histogram('max_' + im_name, result)
+    imageio.imwrite('post_processed_images/max_' + im_name, result)
+
+
+def min_filter(im_name, image):
+    width = image.shape[1]
+    height = image.shape[0]
+    result = np.zeros((image.shape[0], image.shape[1]), np.uint8)
+
+    for row in range(height):
+        for col in range(width):
+            currentElement = 0
+            left = 0
+            right = 0
+            top = 0
+            bottom = 0
+            topLeft = 0
+            topRight = 0
+            bottomLeft = 0
+            bottomRight = 0
+            counter = 1
+            currentElement = image[row][col]
+
+            if not col - 1 < 0:
+                left = image[row][col - 1]
+            if not col + 1 > width - 1:
+                right = image[row][col + 1]
+            if not row - 1 < 0:
+                top = image[row - 1][col]
+            if not row + 1 > height - 1:
+                bottom = image[row + 1][col]
+
+            if not row - 1 < 0 and not col - 1 < 0:
+                topLeft = image[row - 1][col - 1]
+            if not row - 1 < 0 and not col + 1 > width - 1:
+                topRight = image[row - 1][col + 1]
+            if not row + 1 > height - 1 and not col - 1 < 0:
+                bottomLeft = image[row + 1][col - 1]
+            if not row + 1 > height - 1 and not col + 1 > width - 1:
+                bottomRight = image[row + 1][col + 1]
+
+            neighbors = [int(currentElement), int(left), int(right), int(top), int(bottom), int(topLeft),
+                         int(topRight), int(bottomLeft), int(bottomRight)]
+            result[row][col] = min(neighbors)
+
+    image_histogram('min_' + im_name, result)
+    imageio.imwrite('post_processed_images/min_' + im_name, result)
+
+
+def midpoint_filter(im_name, image):
+    width = image.shape[1]
+    height = image.shape[0]
+    result = np.zeros((image.shape[0], image.shape[1]), np.uint8)
+
+    for row in range(height):
+        for col in range(width):
+            currentElement = 0
+            left = 0
+            right = 0
+            top = 0
+            bottom = 0
+            topLeft = 0
+            topRight = 0
+            bottomLeft = 0
+            bottomRight = 0
+            counter = 1
+            currentElement = image[row][col]
+
+            if not col - 1 < 0:
+                left = image[row][col - 1]
+            if not col + 1 > width - 1:
+                right = image[row][col + 1]
+            if not row - 1 < 0:
+                top = image[row - 1][col]
+            if not row + 1 > height - 1:
+                bottom = image[row + 1][col]
+
+            if not row - 1 < 0 and not col - 1 < 0:
+                topLeft = image[row - 1][col - 1]
+            if not row - 1 < 0 and not col + 1 > width - 1:
+                topRight = image[row - 1][col + 1]
+            if not row + 1 > height - 1 and not col - 1 < 0:
+                bottomLeft = image[row + 1][col - 1]
+            if not row + 1 > height - 1 and not col + 1 > width - 1:
+                bottomRight = image[row + 1][col + 1]
+
+            neighbors = [int(currentElement), int(left), int(right), int(top), int(bottom), int(topLeft),
+                         int(topRight), int(bottomLeft), int(bottomRight)]
+            result[row][col] = (max(neighbors) + min(neighbors)) / 2
+
+    image_histogram('midpoint_' + im_name, result)
+    imageio.imwrite('post_processed_images/midpoint_' + im_name, result)
+
+
+def geometric_filter(im_name, image):
+    width = image.shape[1]
+    height = image.shape[0]
+    result = np.zeros((image.shape[0], image.shape[1]), np.uint8)
+
+    for row in range(height):
+        for col in range(width):
+            currentElement = 0
+            left = 0
+            right = 0
+            top = 0
+            bottom = 0
+            topLeft = 0
+            topRight = 0
+            bottomLeft = 0
+            bottomRight = 0
+            counter = 1
+            currentElement = image[row][col]
+
+            if not col - 1 < 0:
+                left = image[row][col - 1]
+                counter += 1
+            if not col + 1 > width - 1:
+                right = image[row][col + 1]
+                counter += 1
+            if not row - 1 < 0:
+                top = image[row - 1][col]
+                counter += 1
+            if not row + 1 > height - 1:
+                bottom = image[row + 1][col]
+                counter += 1
+
+            if not row - 1 < 0 and not col - 1 < 0:
+                topLeft = image[row - 1][col - 1]
+                counter += 1
+            if not row - 1 < 0 and not col + 1 > width - 1:
+                topRight = image[row - 1][col + 1]
+                counter += 1
+            if not row + 1 > height - 1 and not col - 1 < 0:
+                bottomLeft = image[row + 1][col - 1]
+                counter += 1
+            if not row + 1 > height - 1 and not col + 1 > width - 1:
+                bottomRight = image[row + 1][col + 1]
+                counter += 1
+
+            total = int(currentElement) * int(left) * int(right) * int(top) * int(bottom) * int(topLeft) * int(
+                topRight) * int(bottomLeft) * int(bottomRight)
+            avg = total ** (1/counter)
+            result[row][col] = avg
+
+    image_histogram('geometric_' + im_name, result)
+    imageio.imwrite('post_processed_images/geometric_' + im_name, result)
+
+
+def harmonic_filter(im_name, image):
+    width = image.shape[1]
+    height = image.shape[0]
+    result = np.zeros((image.shape[0], image.shape[1]), np.uint8)
+
+    for row in range(height):
+        for col in range(width):
+            currentElement = 0
+            left = 0
+            right = 0
+            top = 0
+            bottom = 0
+            topLeft = 0
+            topRight = 0
+            bottomLeft = 0
+            bottomRight = 0
+            counter = 1
+            currentElement = image[row][col]
+
+            if not col - 1 < 0:
+                left = image[row][col - 1]
+                counter += 1
+            if not col + 1 > width - 1:
+                right = image[row][col + 1]
+                counter += 1
+            if not row - 1 < 0:
+                top = image[row - 1][col]
+                counter += 1
+            if not row + 1 > height - 1:
+                bottom = image[row + 1][col]
+                counter += 1
+
+            if not row - 1 < 0 and not col - 1 < 0:
+                topLeft = image[row - 1][col - 1]
+                counter += 1
+            if not row - 1 < 0 and not col + 1 > width - 1:
+                topRight = image[row - 1][col + 1]
+                counter += 1
+            if not row + 1 > height - 1 and not col - 1 < 0:
+                bottomLeft = image[row + 1][col - 1]
+                counter += 1
+            if not row + 1 > height - 1 and not col + 1 > width - 1:
+                bottomRight = image[row + 1][col + 1]
+                counter += 1
+
+            total = (1/int(currentElement)) + (1/int(left)) + (1/int(right)) + (1/int(top)) + \
+                    (1/int(bottom)) + (1/int(topLeft)) + (1/int(topRight)) + (1/int(bottomLeft)) + (1/int(bottomRight))
+            avg = counter / total
+            result[row][col] = avg
+
+    image_histogram('harmonic_' + im_name, result)
+    imageio.imwrite('post_processed_images/harmonic_' + im_name, result)
+
+
+def contraharmonic_filter(im_name, image, q):
+    width = image.shape[1]
+    height = image.shape[0]
+    result = np.zeros((image.shape[0], image.shape[1]), np.uint8)
+
+    for row in range(height):
+        for col in range(width):
+            currentElement = 0
+            left = 0
+            right = 0
+            top = 0
+            bottom = 0
+            topLeft = 0
+            topRight = 0
+            bottomLeft = 0
+            bottomRight = 0
+            counter = 1
+            currentElement = image[row][col]
+
+            if not col - 1 < 0:
+                left = image[row][col - 1]
+                counter += 1
+            if not col + 1 > width - 1:
+                right = image[row][col + 1]
+                counter += 1
+            if not row - 1 < 0:
+                top = image[row - 1][col]
+                counter += 1
+            if not row + 1 > height - 1:
+                bottom = image[row + 1][col]
+                counter += 1
+
+            if not row - 1 < 0 and not col - 1 < 0:
+                topLeft = image[row - 1][col - 1]
+                counter += 1
+            if not row - 1 < 0 and not col + 1 > width - 1:
+                topRight = image[row - 1][col + 1]
+                counter += 1
+            if not row + 1 > height - 1 and not col - 1 < 0:
+                bottomLeft = image[row + 1][col - 1]
+                counter += 1
+            if not row + 1 > height - 1 and not col + 1 > width - 1:
+                bottomRight = image[row + 1][col + 1]
+                counter += 1
+
+            total_den = (int(currentElement) ** q) + (int(left) ** q) + (int(right) ** q) + (int(top) ** q) + \
+                    (int(bottom) ** q) + (int(topLeft) ** q) + (int(topRight) ** q) + \
+                    (int(bottomLeft) ** q) + (int(bottomRight) ** q)
+            total_num = (int(currentElement) ** (q + 1)) + (int(left) ** (q + 1)) + \
+                        (int(right) ** (q + 1)) + (int(top) ** (q + 1)) + \
+                        (int(bottom) ** (q + 1)) + (int(topLeft) ** (q + 1)) + (int(topRight) ** (q + 1)) + \
+                        (int(bottomLeft) ** (q + 1)) + (int(bottomRight) ** (q + 1))
+            avg = total_num/total_den
+            result[row][col] = avg
+
+    image_histogram('contraharmonic_' + im_name, result)
+    imageio.imwrite('post_processed_images/contraharmonic_' + im_name, result)
+
+
 def convolution(im_name, image, filter_matrix):
     width = image.shape[1]
     height = image.shape[0]
@@ -529,3 +831,21 @@ def highboost(im_name, image, c):
 
     image_histogram('highboost' + im_name, result)
     imageio.imwrite('post_processed_images/highboost_' + im_name, result)
+
+
+def fourier (im_name, image):
+    width = image.shape[1]
+    height = image.shape[0]
+
+    #result = np.zeros(height, width, np.uint8)
+    padded_image = np.zeros((height*2, width*2), np.uint8)
+
+    for i in range(height):
+        for j in range(width):
+            i2 = (height/2) + i
+            j2 = (width/2) + j
+            #print(i2, j2)
+            image[i][j] = image[i][j] * pow(-1, i+j)
+            padded_image[int(i2)][int(j2)] = image[i][j]
+
+    imageio.imwrite('post_processed_images/fourier_' + im_name, padded_image)
