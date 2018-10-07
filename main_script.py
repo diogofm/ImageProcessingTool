@@ -1,5 +1,6 @@
 import imageio, sys, os
 from image_filters import *
+from color_conversion import *
 
 
 def run_day_one(EXPONENT, LOG, x_0_1, y_0_1, x_1_1, y_1_1, x_0_2, y_0_2, x_1_2, y_1_2, x_0_3, y_0_3, x_1_3, y_1_3):
@@ -51,16 +52,49 @@ def run_day_two(kernel_weighted, kernel_conv, boost_constant):
         print("Highboost filter for " + image_file_name + " done.")
 
 
+def run_day_three_filters(q):
+    images_path_list = os.listdir('./images/')
+
+    for image_file_name in images_path_list:
+        im = imageio.imread('images/' + image_file_name)
+        image_histogram(image_file_name, im)
+        print("Histogram for " + image_file_name + " done.")
+        max_filter(image_file_name, im.copy())
+        print("Max for " + image_file_name + " done.")
+        min_filter(image_file_name, im.copy())
+        print("Min for " + image_file_name + " done.")
+        midpoint_filter(image_file_name, im.copy())
+        print("Midpoint for " + image_file_name + " done.")
+        geometric_filter(image_file_name, im.copy())
+        print("Geometric for " + image_file_name + " done.")
+        harmonic_filter(image_file_name, im.copy())
+        print("Harmonic for " + image_file_name + " done.")
+        contraharmonic_filter(image_file_name, im.copy(), q)
+        print("Contra-Harmonic for " + image_file_name + " done.")
+
+
+def run_day_four(r, g, b, c, m, y, h, s, i):
+    print("RGB to CMY:")
+    print(rgb_to_cmy(r, g, b))
+    print("RGB to HSI:")
+    print(rgb_to_hsi(r, g, b))
+    print("CMY to RGB:")
+    print(cmy_to_rgb(c, m, y))
+    print("CMY to HSI:")
+    print(cmy_to_hsi(c, m, y))
+    print("HSI to RGB:")
+    print(hsi_to_rgb(h, s, i))
+    print("HSI to CMY:")
+    print(hsi_to_cmy(h, s, i))
+
+
 if __name__ == '__main__':
     # run_day_one(0.4, (255/log(256)), 0, 0, 10, 10, 11, 11, 13, 100, 14, 101, 255, 255)
 
-    weighted_kernel = np.array([[1, 5, 1], [5, 1, 5], [1, 5, 1]])
-    conv_kernel = np.array([[0, 5, 0], [0, 5, 0], [0, 5, 0]])
-    highboost_constant = 2
+    # weighted_kernel = np.array([[1, 5, 1], [5, 1, 5], [1, 5, 1]])
+    # conv_kernel = np.array([[0, 5, 0], [0, 5, 0], [0, 5, 0]])
+    # highboost_constant = 2
+    #
+    # run_day_two(weighted_kernel, conv_kernel, highboost_constant)
 
-    run_day_two(weighted_kernel, conv_kernel, highboost_constant)
-
-    # run(sys.argv[1],
-    #     sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5],
-    #     sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9],
-    #     sys.argv[10], sys.argv[11], sys.argv[12], sys.argv[13])
+    run_day_three_filters(2)

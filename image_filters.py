@@ -567,10 +567,13 @@ def harmonic_filter(im_name, image):
                 bottomRight = image[row + 1][col + 1]
                 counter += 1
 
-            total = (1/int(currentElement)) + (1/int(left)) + (1/int(right)) + (1/int(top)) + \
-                    (1/int(bottom)) + (1/int(topLeft)) + (1/int(topRight)) + (1/int(bottomLeft)) + (1/int(bottomRight))
-            avg = counter / total
-            result[row][col] = avg
+            try:
+                total = (1/int(currentElement)) + (1/int(left)) + (1/int(right)) + (1/int(top)) + \
+                        (1/int(bottom)) + (1/int(topLeft)) + (1/int(topRight)) + (1/int(bottomLeft)) + (1/int(bottomRight))
+                avg = counter / total
+                result[row][col] = avg
+            except:
+                result[row][col] = 0
 
     image_histogram('harmonic_' + im_name, result)
     imageio.imwrite('post_processed_images/harmonic_' + im_name, result)
@@ -628,8 +631,11 @@ def contraharmonic_filter(im_name, image, q):
                         (int(right) ** (q + 1)) + (int(top) ** (q + 1)) + \
                         (int(bottom) ** (q + 1)) + (int(topLeft) ** (q + 1)) + (int(topRight) ** (q + 1)) + \
                         (int(bottomLeft) ** (q + 1)) + (int(bottomRight) ** (q + 1))
-            avg = total_num/total_den
-            result[row][col] = avg
+            try:
+                avg = total_num/total_den
+                result[row][col] = avg
+            except:
+                result[row][col] = 0
 
     image_histogram('contraharmonic_' + im_name, result)
     imageio.imwrite('post_processed_images/contraharmonic_' + im_name, result)
@@ -833,7 +839,7 @@ def highboost(im_name, image, c):
     imageio.imwrite('post_processed_images/highboost_' + im_name, result)
 
 
-def fourier (im_name, image):
+def fourier(im_name, image):
     width = image.shape[1]
     height = image.shape[0]
 
