@@ -73,6 +73,19 @@ def run_day_three_filters(q):
         print("Contra-Harmonic for " + image_file_name + " done.")
 
 
+def run_day_three_fourier():
+    images_path_list = os.listdir('./images/')
+
+    for image_file_name in images_path_list:
+        im = imageio.imread('images/' + image_file_name)
+        # image_histogram(image_file_name, im)
+        # print("Histogram for " + image_file_name + " done.")
+        f = fourier(image_file_name, im.copy())
+        print("Fourier for " + image_file_name + " done.")
+        f_filtered = fourier_operation(f, [510, 513, 512, 514, 511], [510, 513, 512, 514, 511])
+        inverse_fourier(f_filtered)
+
+
 def run_day_four(r, g, b, c, m, y, h, s, i):
     print("RGB to CMY:")
     print(rgb_to_cmy(r, g, b))
@@ -97,4 +110,8 @@ if __name__ == '__main__':
     #
     # run_day_two(weighted_kernel, conv_kernel, highboost_constant)
 
-    run_day_three_filters(2)
+    # run_day_three_filters(2)
+
+    # run_day_three_fourier()
+
+    run_day_four(200, 100, 50, 200, 100, 50, 20, 0.571, 116)

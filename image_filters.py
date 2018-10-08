@@ -2,6 +2,7 @@ import imageio
 import numpy as np
 import matplotlib.pyplot as plt
 from math import *
+from scipy import fftpack
 
 
 def image_histogram(im_name, im):
@@ -840,18 +841,50 @@ def highboost(im_name, image, c):
 
 
 def fourier(im_name, image):
-    width = image.shape[1]
-    height = image.shape[0]
+    im_fft = fftpack.fft2(image)
 
-    #result = np.zeros(height, width, np.uint8)
-    padded_image = np.zeros((height*2, width*2), np.uint8)
+    # Show the results
 
-    for i in range(height):
-        for j in range(width):
-            i2 = (height/2) + i
-            j2 = (width/2) + j
-            #print(i2, j2)
-            image[i][j] = image[i][j] * pow(-1, i+j)
-            padded_image[int(i2)][int(j2)] = image[i][j]
+    def plot_spectrum(im_fft):
+        from matplotlib.colors import LogNorm
+        # A logarithmic colormap
+        plt.imshow(np.abs(im_fft), norm=LogNorm(vmin=5))
+        plt.colorbar()
 
-    imageio.imwrite('post_processed_images/fourier_' + im_name, padded_image)
+    plt.figure()
+    plot_spectrum(im_fft)
+    plt.title('Fourier transform')
+    plt.show()
+
+    return im_fft
+    # imageio.imwrite('post_processed_images/fourier_' + im_name, magnitude_spectrum)
+
+
+def inverse_fourier(im_fourier):
+    im_new = fftpack.ifft2(im_fourier).real
+
+    plt.figure()
+    plt.imshow(im_new, plt.cm.gray)
+    plt.title('Reconstructed Image')
+    plt.show()
+
+
+def fourier_operation(im_fft, rows, columns):
+    for row in rows:
+        im_fft[row,:] = 0
+
+    for column in columns:
+        im_fft[:,column] = 0
+
+    def plot_spectrum(im_fft):
+        from matplotlib.colors import LogNorm
+        # A logarithmic colormap
+        plt.imshow(np.abs(im_fft), norm=LogNorm(vmin=5))
+        plt.colorbar()
+
+    plt.figure()
+    plot_spectrum(im_fft)
+    plt.title('Fourier transform')
+    plt.show()
+
+    return im_fft
