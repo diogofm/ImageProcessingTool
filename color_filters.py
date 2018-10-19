@@ -103,7 +103,7 @@ def sepia(im_name, im):
         imageio.imwrite('post_processed_images/sepia_' + im_name, im)
 
 
-def chroma_key(im_name, input_img):
+def chroma_key(input_img):
     output_img = Image.new("RGBA", input_img.size)
 
     tola, tolb = 200, 100

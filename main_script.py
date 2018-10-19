@@ -2,6 +2,7 @@ import imageio, sys, os
 from image_filters import *
 from color_conversion import *
 from color_filters import *
+from PIL import Image
 
 
 def run_day_one(EXPONENT, LOG, x_0_1, y_0_1, x_1_1, y_1_1, x_0_2, y_0_2, x_1_2, y_1_2, x_0_3, y_0_3, x_1_3, y_1_3):
@@ -102,7 +103,7 @@ def run_day_four(r, g, b, c, m, y, h, s, i):
     print(hsi_to_cmy(h, s, i))
 
 
-def run_day_five():
+def run_day_five_thres_bright():
     images_path_list = os.listdir('./images/')
     tsh_list = [200, -1, 180]
 
@@ -112,6 +113,34 @@ def run_day_five():
         full_tresholding(image_file_name, im, tsh_list)
         brightness(image_file_name, im, 30)
 
+
+def run_day_five_sub():
+    images_path_list = os.listdir('./images/sub/')
+
+    first_im = imageio.imread(images_path_list[0])
+    second_im = imageio.imread(images_path_list[1])
+
+    image_subtraction('subtraction_complete.tif', first_im, second_im)
+
+
+def run_day_five_sepia():
+    images_path_list = os.listdir('./images/')
+    tsh_list = [200, -1, 180]
+
+    for image_file_name in images_path_list:
+        im = imageio.imread('images/' + image_file_name)
+        sepia(image_file_name, im)
+
+
+def run_day_five_chroma():
+    im = Image.open('images/chroma/fg.png')
+    bg = imageio.imread('images/chroma/bg.png')
+
+    chroma_key(im)
+
+    cut_im = imageio.imread('chroma.png')
+
+    chroma_add_background('chromakeyresult.png', cut_im, bg)
 
 if __name__ == '__main__':
     # run_day_one(0.4, (255/log(256)), 0, 0, 10, 10, 11, 11, 13, 100, 14, 101, 255, 255)
@@ -128,4 +157,7 @@ if __name__ == '__main__':
     #
     # run_day_four(200, 100, 50, 200, 100, 50, 20, 0.571, 116)
 
-    run_day_five()
+    # run_day_five_thres_bright()
+    # run_day_five_sub()
+    # run_day_five_sepia()
+    run_day_five_chroma()
