@@ -888,3 +888,10 @@ def fourier_operation(im_fft, rows, columns):
     plt.show()
 
     return im_fft
+
+
+def image_subtraction(im_name, first_im, filtered_im):
+    result = first_im - filtered_im
+
+    image_histogram('sub' + im_name, result)
+    imageio.imwrite('post_processed_images/sub_' + im_name, result)

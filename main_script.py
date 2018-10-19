@@ -1,6 +1,7 @@
 import imageio, sys, os
 from image_filters import *
 from color_conversion import *
+from color_filters import *
 
 
 def run_day_one(EXPONENT, LOG, x_0_1, y_0_1, x_1_1, y_1_1, x_0_2, y_0_2, x_1_2, y_1_2, x_0_3, y_0_3, x_1_3, y_1_3):
@@ -73,16 +74,16 @@ def run_day_three_filters(q):
         print("Contra-Harmonic for " + image_file_name + " done.")
 
 
-def run_day_three_fourier():
-    images_path_list = os.listdir('./images/')
+def run_day_three_fourier(rows, columns):
+    images_path_list = os.listdir('./images/fourier_images/')
 
     for image_file_name in images_path_list:
-        im = imageio.imread('images/' + image_file_name)
+        im = imageio.imread('images/fourier_images/' + image_file_name)
         # image_histogram(image_file_name, im)
         # print("Histogram for " + image_file_name + " done.")
         f = fourier(image_file_name, im.copy())
         print("Fourier for " + image_file_name + " done.")
-        f_filtered = fourier_operation(f, [510, 513, 512, 514, 511], [510, 513, 512, 514, 511])
+        f_filtered = fourier_operation(f, rows, columns)
         inverse_fourier(f_filtered)
 
 
@@ -101,6 +102,17 @@ def run_day_four(r, g, b, c, m, y, h, s, i):
     print(hsi_to_cmy(h, s, i))
 
 
+def run_day_five():
+    images_path_list = os.listdir('./images/')
+    tsh_list = [200, -1, 180]
+
+    for image_file_name in images_path_list:
+        im = imageio.imread('images/' + image_file_name)
+
+        full_tresholding(image_file_name, im, tsh_list)
+        brightness(image_file_name, im, 30)
+
+
 if __name__ == '__main__':
     # run_day_one(0.4, (255/log(256)), 0, 0, 10, 10, 11, 11, 13, 100, 14, 101, 255, 255)
 
@@ -112,6 +124,8 @@ if __name__ == '__main__':
 
     # run_day_three_filters(2)
 
-    # run_day_three_fourier()
+    # run_day_three_fourier([401,402,403,404],[370,371,372])
+    #
+    # run_day_four(200, 100, 50, 200, 100, 50, 20, 0.571, 116)
 
-    run_day_four(200, 100, 50, 200, 100, 50, 20, 0.571, 116)
+    run_day_five()
