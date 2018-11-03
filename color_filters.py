@@ -55,8 +55,8 @@ def full_tresholding(im_name, im, tsh_list):
                 if tsh > 0:
                     if im[i][j][channel] > tsh:
                         result[i][j][channel] = 255
-                else:
-                    result[i][j][channel] = im[i][j][channel]
+                    else:
+                        result[i][j][channel] = 0
     imageio.imwrite('post_processed_images/full_tsh_' + im_name, result)
 
 
@@ -68,7 +68,7 @@ def brightness (im_name, im, br):
     for i in range(height):
         for j in range(width):
             for z in range(im.shape[2]):
-                b = im[i][j][z] + br
+                b = im[i][j][z] * br
                 if b > 255:
                     b = 255
                 result[i][j][z] = b

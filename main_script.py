@@ -55,10 +55,10 @@ def run_day_two(kernel_weighted, kernel_conv, boost_constant):
 
 
 def run_day_three_filters(q):
-    images_path_list = os.listdir('./images/')
+    images_path_list = os.listdir('./images_day3/')
 
     for image_file_name in images_path_list:
-        im = imageio.imread('images/' + image_file_name)
+        im = imageio.imread('images_day3/' + image_file_name)
         image_histogram(image_file_name, im)
         print("Histogram for " + image_file_name + " done.")
         max_filter(image_file_name, im.copy())
@@ -104,31 +104,30 @@ def run_day_four(r, g, b, c, m, y, h, s, i):
 
 
 def run_day_five_thres_bright():
-    images_path_list = os.listdir('./images/')
-    tsh_list = [200, -1, 180]
+    images_path_list = os.listdir('./images/general/')
+    tsh_list = [127, 128, 129]
 
     for image_file_name in images_path_list:
-        im = imageio.imread('images/' + image_file_name)
+        im = imageio.imread('images/general/' + image_file_name)
 
         full_tresholding(image_file_name, im, tsh_list)
-        brightness(image_file_name, im, 30)
+        # brightness(image_file_name, im, 2)
 
 
 def run_day_five_sub():
     images_path_list = os.listdir('./images/sub/')
 
-    first_im = imageio.imread(images_path_list[0])
-    second_im = imageio.imread(images_path_list[1])
+    first_im = imageio.imread('./images/sub/' + images_path_list[0])
+    second_im = imageio.imread('./images/sub/' + images_path_list[1])
 
     image_subtraction('subtraction_complete.tif', first_im, second_im)
 
 
 def run_day_five_sepia():
-    images_path_list = os.listdir('./images/')
-    tsh_list = [200, -1, 180]
+    images_path_list = os.listdir('./images/general/')
 
     for image_file_name in images_path_list:
-        im = imageio.imread('images/' + image_file_name)
+        im = imageio.imread('images/general/' + image_file_name)
         sepia(image_file_name, im)
 
 
@@ -141,6 +140,7 @@ def run_day_five_chroma():
     cut_im = imageio.imread('chroma.png')
 
     chroma_add_background('chromakeyresult.png', cut_im, bg)
+
 
 if __name__ == '__main__':
     # run_day_one(0.4, (255/log(256)), 0, 0, 10, 10, 11, 11, 13, 100, 14, 101, 255, 255)
