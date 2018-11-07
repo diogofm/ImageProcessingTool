@@ -23,6 +23,79 @@ def haar(data):
         data[i] = temp[i]
 
 
+def inverse_haar(data):
+    w0 = 0.5
+    w1 = -0.5
+    s0 = 0.5
+    s1 = 0.5
+
+    temp = np.zeros(data.shape, dtype=np.float)
+
+    h = data.shape[0] >> 1
+
+    for i in range(h):
+        k = i << 1
+        temp[k] = (data[i] * s0 + data[i + h] * w0) / w0
+        temp[k + 1] = (data[i] * s1 + data[i + h] * w1) / s0
+
+    for i in range(data.shape[0]):
+        data[i] = temp[i]
+
+
+def inverse_haar_2D_component(im, iterations):
+    rows, columns = im.shape
+
+    row = np.zeros(rows)
+    column = np.zeros(columns)
+
+    for l in range(iterations):
+        for j in range(columns):
+            for i in range(row.shape[0]):
+                column[i] = im[i][j]
+
+            inverse_haar(column)
+
+            for i in range(row.shape[0]):
+                im[i][j] = column[i]
+
+        for i in range(rows):
+            for j in range(row.shape[0]):
+                row[j] = im[i][j]
+
+            inverse_haar(row)
+
+            for j in range(row.shape[0]):
+                im[i][j] = row[j]
+
+
+def inverse_haar_2D_grayscale(im_name, im, iterations):
+    rows, columns = im.shape
+
+    row = np.zeros(rows)
+    column = np.zeros(columns)
+
+    for l in range(iterations):
+        for j in range(columns):
+            for i in range(row.shape[0]):
+                column[i] = im[i][j]
+
+            inverse_haar(column)
+
+            for i in range(row.shape[0]):
+                im[i][j] = column[i]
+
+        for i in range(rows):
+            for j in range(row.shape[0]):
+                row[j] = im[i][j]
+
+            inverse_haar(row)
+
+            for j in range(row.shape[0]):
+                im[i][j] = row[j]
+
+    imageio.imwrite("post_processed_images/inverse_haar_" + im_name, im)
+
+
 def haar_2D_component(im, iterations):
     rows, columns = im.shape
 
@@ -56,6 +129,9 @@ def haar_2D_component(im, iterations):
 
 def haar_2D_grayscale(im_name, im, iterations):
     rows, columns = im.shape
+
+    # row = np.zeros(rows)
+    # column = np.zeros(columns)
 
     for k in range(iterations):
         level = 1 << k
@@ -141,3 +217,26 @@ def haar_2D_rgb(im_name, im, iterations):
     image.save('haar.png', "PNG")
 
 
+def inverse_haar_2D_rgb(im_name, im, iterations):
+    rows, columns, colors = im.shape
+
+    r = im[:, :, 0]
+    g = im[:, :, 1]
+    b = im[:, :, 2]
+
+    inverse_haar_2D_component(r, iterations)
+    inverse_haar_2D_component(g, iterations)
+    inverse_haar_2D_component(b, iterations)
+
+    image = Image.new('RGB', (im.shape[0], im.shape[1]))
+
+    for i in range(im.shape[0]):
+        for j in range(im.shape[1]):
+            image.putpixel((j, i), (r[i][j], g[i][j], b[i][j]))
+
+    imageio.imwrite("post_processed_images/inverse_haarR_" + im_name, r)
+    imageio.imwrite("post_processed_images/inverse_haarG_" + im_name, g)
+    imageio.imwrite("post_processed_images/inverse_haarB_" + im_name, b)
+
+    imageio.imwrite("post_processed_images/inverse_haar_" + im_name, im)
+    image.save('inverse_haar.png', "PNG")
