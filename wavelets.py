@@ -54,8 +54,17 @@ def inverse_haar(data):
 
     for i in range(h):
         k = i << 1
-        temp[k] = (data[i] * s0 + (data[i + h] - 127) * w0) / w0
-        temp[k + 1] = (data[i] * s1 + (data[i + h] - 127) * w1) / s0
+        b = (data[i] * s0 + (data[i + h] - 127) * w0) / w0
+        if b < 0:
+            b = 0
+
+        temp[k] = b
+
+        b = (data[i] * s1 + (data[i + h] - 127) * w1) / s0
+        if b < 0:
+            b = 0
+
+        temp[k + 1] = b
 
     for i in range(data.shape[0]):
         data[i] = temp[i]

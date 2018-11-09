@@ -2,6 +2,7 @@ import imageio, sys, os
 from image_filters import *
 from color_conversion import *
 from color_filters import *
+from wavelets import *
 from PIL import Image
 
 
@@ -142,6 +143,26 @@ def run_day_five_chroma():
     chroma_add_background('chromakeyresult.png', cut_im, bg)
 
 
+def run_day_six(levels):
+    images_path_list = os.listdir('./images/haar/')
+
+    for image_file_name in images_path_list:
+        im = imageio.imread('images/haar/' + image_file_name)
+        if im.shape[0] == im.shape[1]:
+            if len(im.shape) == 2:
+                haar_2D_grayscale(image_file_name, im.copy(), levels)
+                print("Haar Grayscale done for: " + image_file_name)
+                im_inv = imageio.imread("post_processed_images/haar_" + image_file_name)
+                inverse_haar_2D_grayscale(image_file_name, im_inv.copy(), levels)
+                print("Inverse Haar Grayscale done for: " + image_file_name)
+            else:
+                haar_2D_rgb(image_file_name, im.copy(), levels)
+                print("Haar RGB done for: " + image_file_name)
+                im_inv = imageio.imread("post_processed_images/haar_" + image_file_name)
+                inverse_haar_2D_rgb(image_file_name, im_inv.copy(), levels)
+                print("Inverse Haar RGB done for: " + image_file_name)
+
+
 if __name__ == '__main__':
     # run_day_one(0.4, (255/log(256)), 0, 0, 10, 10, 11, 11, 13, 100, 14, 101, 255, 255)
 
@@ -160,4 +181,6 @@ if __name__ == '__main__':
     # run_day_five_thres_bright()
     # run_day_five_sub()
     # run_day_five_sepia()
-    run_day_five_chroma()
+    # run_day_five_chroma()
+
+    run_day_six(1)
