@@ -85,5 +85,5 @@ def compress(im_name, haar_size, tolerance, gain_or_loss):
         compress_file.close()
 
 
-compress('lena.bmp', 2, 5, False)
-decompress('lena.bmp', 2, True)
+compress('Fig0637(a)(caster_stand_original).tif', 2, 5, False)
+decompress('Fig0637(a)(caster_stand_original).tif', 2, True)
