@@ -112,8 +112,8 @@ def gradient(im_name, im, radius):
 
 
 # im = imageio.imread("Fig0937(a)(ckt_board_section).tif")
-# erosion("Fig0937(a)(ckt_board_section).tif", im, 5)
-# dilation("Fig0937(a)(ckt_board_section).tif", im, 5)
+# erosion("Fig0937(a)(ckt_board_section).tif", im, 9)
+# dilation("Fig0937(a)(ckt_board_section).tif", im, 9)
 
 im = imageio.imread("Fig0939(a)(headCT-Vandy).tif")
 gradient("Fig0939(a)(headCT-Vandy).tif", im, 3)
